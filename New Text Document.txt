@@ -1,7 +1,0 @@
-<html>
-<head>
-<title>Hello</hello>
-</head>
-<body>
-</body>
-</html>
