@@ -1,6 +1,7 @@
 create database bhavnacorp
 use bhavnacorp
 
+--Table1
 create table personal_details(p_id int primary key , p_name nvarchar(20), p_age int, p_address nvarchar(20))
 insert into personal_details values(1, 'Saumya', 22, 'patna')
 insert into personal_details values(2, 'Naman', 22, 'amritsar')
@@ -13,7 +14,7 @@ select * from personal_details
 update personal_details set p_address='muzzafarpur' where p_id=3
 
 
-
+--Table2
 create table official_details(o_id int, o_name nvarchar(20), o_branch nvarchar(20), o_shift nvarchar(20), o_system_no numeric(18,0))
 insert into official_details values(1, 'Saumya', 'CP', 'General','488')
 insert into official_details values(2, 'Naman', 'ML', 'General','489')
@@ -23,7 +24,7 @@ insert into official_details values(5, 'Sarthak', 'ML', 'General','492')
 
 select * from official_details
 
-
+--Table3
 create table salary_details(s_id int, s_hra numeric(18,0), s_basic numeric(18,0), s_pf numeric(18,0))
 insert into salary_details values(1, 12000, 10000, 2000)
 insert into salary_details values(2, 15000, 20000, 2500)
