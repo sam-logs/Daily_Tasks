@@ -1,0 +1,101 @@
+--Ecommerce Table
+--Product(p_id,p_name,p_price,p_instock)
+--orders(o_no,o_amount,o_shipAddress,o_quantity)
+--customer(u_id,u-email,u_password,u_name,u_phone)
+--Account(a_sales,a_
+
+
+create database Ecommerce
+use Ecommerce
+
+create table product(p_id int primary key identity(100,1), p_name nvarchar(20), p_price numeric(18,0), p_instock nvarchar(20))
+insert into product values('headphones',1300,'available in stock')
+insert into product values('laptop',130000,'available in stock')
+insert into product values('mouse',600,'available in stock')
+insert into product values('dryer',1300,'out of stock')
+insert into product values('tv',18000,'available in stock')
+insert into product values('trimmer',1200,'available in stock')
+insert into product values('kitchen essentials',1170,'available in stock')
+insert into product values('speakers',2999,'currently outofstock')
+insert into product values('watch',900,'available in stock')
+insert into product values('cap',100,'out of stock')
+
+select * from product
+
+
+--Order Table
+create table orders(o_no int, o_amount int, o_shipadd nvarchar(30), o_quantity int)
+insert into orders values(100,2600,'Greater noida 126',2)
+insert into orders values(100,26000,'jaipur,Rajashthan',20)
+insert into orders values(104,90000,'Greater noida 62',5)
+insert into orders values(109,300,'lucknow',3)
+insert into orders values(106,1170,'New delhi',1)
+insert into orders values(102,1200,'mumbai',2)
+insert into orders values(101,130000,'patna',1)
+insert into orders values(106,2340,'Greater noida 63',2)
+insert into orders values(108,1800,'Hyderabad',2)
+insert into orders values(111,2999,'banglore',1)
+
+select * from orders
+
+--customer table
+create table customer(u_id int, u_email nvarchar(20),u_password nvarchar(20),u_namen varchar(20),u_phone numeric(18,0))
+insert into customer values(100,'ab@gmail.com','123abc','ab singh',897677)
+insert into customer values(101,'abh@gmail.com','123aabc','Rohit singh',89767327)
+insert into customer values(102,'abg@gmail.com','123abbc','Ram singh',89767547)
+insert into customer values(103,'abf@gmail.com','123abcc','shyam singh',45897677)
+insert into customer values(104,'abe@gmail.com','123a1bc','mukul singh',67897677)
+insert into customer values(105,'abd@gmail.com','123a2bc','gurnam singh',89897677)
+insert into customer values(106,'abc@gmail.com','123ab3c','jass singh',98897677)
+select * from customer
+
+--Account Table
+create table account(a_id int, a_status nvarchar(20), a_purchaseamt numeric(18,0), a_uadd nvarchar(30))
+insert into account values(101,'active',130000,'patna')
+insert into account values(104,'shopping',900000,'greater noida 62')
+insert into account values(103,'inactive',0,'jaipur')
+insert into account values(106,'active',2340,'greater noida 63')
+insert into account values(102,'active',1200,'mumbai')
+insert into account values(100,'active',2600,'greater noida 126')
+select * from account
+
+
+--creating view(Customer)
+create view Customer_view
+as 
+select p_name,p_price,o_amount,o_quantity
+from product p, orders o
+where
+p.p_id = o.o_no
+
+select * from Customer_view
+
+--Owner View
+create view Owner_view
+as 
+select a_purchaseamt,a_status,o_amount,o_quantity
+from account a, orders o
+where
+a.a_id = o.o_no
+
+select * from Owner_view
+
+--order View
+create view Order_view
+as 
+select o_amount,o_shipadd,u_namen,u_phone
+from customer c, orders o
+where
+ o.o_no = c.u_id
+
+ select * from Order_view
+
+ --Customer and Product View
+ create view Overall_view
+as 
+select u_namen,u_phone,p_name,p_price,p_instock
+from customer c, product p
+where
+ c.u_id = p.p_id
+
+ select * from Overall_view

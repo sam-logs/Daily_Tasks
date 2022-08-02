@@ -1,7 +1,7 @@
 create database bhavnacorp
 use bhavnacorp
 
-create table personal_details(p_id int, p_name nvarchar(20), p_age int, p_address nvarchar(20))
+create table personal_details(p_id int primary key , p_name nvarchar(20), p_age int, p_address nvarchar(20))
 insert into personal_details values(1, 'Saumya', 22, 'patna')
 insert into personal_details values(2, 'Naman', 22, 'amritsar')
 insert into personal_details values(3, 'Aditya', 22, 'patna')
@@ -11,6 +11,7 @@ insert into personal_details values(5, 'Sarthak', 22, 'jabalpur')
 select * from personal_details
 
 update personal_details set p_address='muzzafarpur' where p_id=3
+
 
 
 create table official_details(o_id int, o_name nvarchar(20), o_branch nvarchar(20), o_shift nvarchar(20), o_system_no numeric(18,0))
@@ -33,3 +34,5 @@ insert into salary_details values(5, 11000, 10000, 2000)
 select * from salary_details
 
 select sum(s_basic)as sum_of_salary from salary_details
+
+select avg(s_hra)as Average_of_salary from salary_details
