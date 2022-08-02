@@ -1,9 +1,0 @@
-<html>
-<head>
-<title>Hello</hello>
-</head>
-<body>
-<p> hey! here is my first git pushing.</p>
-<p> trying to update the file</p>
-</body>
-</html>
