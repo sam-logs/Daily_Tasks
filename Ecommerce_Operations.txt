@@ -1,0 +1,57 @@
+--operations on Ecommerece Database
+select * from account
+
+select * from customer
+
+select * from orders
+
+select * from product
+
+
+--equals operator
+select * from account where a_id=106
+
+--not equal
+select * from customer where u_id <> 105
+
+--greater than or equal to
+select * from customer where u_id >= 105
+
+--less than or equal to
+select * from account where a_purchaseamt <= 2340
+
+--union 
+select o_shipadd from orders
+union
+select a_uadd from account
+
+--intersect
+select o_shipadd from orders
+intersect
+select a_uadd from account
+
+--IN operator
+select u_namen, u_email from customer where u_namen in('Rohit singh', 'gurnam singh', 'Ram Singh')
+
+--NOT
+select p_name, p_price from product where p_id not in (109,105,104)
+
+--Between
+select o_no, o_shipadd from orders where o_quantity between 3 and 5
+
+--IS NULL
+select p_name, p_id from product where p_price is null
+
+-- isNot Null
+select p_name, p_id from product where p_price is not null
+
+--like
+select u_email from customer where u_namen like 'R%'
+
+--Exist
+select a_uadd,a_status from account where exists(select * from orders where account.a_purchaseamt=orders.o_amount)
+
+--Inner Join
+select p_name,p_price, u_namen,u_phone from product p inner join customer c
+on p.p_id = c.u_id
+
