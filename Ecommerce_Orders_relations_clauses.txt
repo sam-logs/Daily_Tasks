@@ -1,0 +1,76 @@
+create database ecommerce_Orders
+use ecommerce_Orders
+
+create table product(p_id int primary key identity(1001,1), p_name nvarchar(20), p_price numeric(18,0),p_category nvarchar(20),p_category_id int)
+insert into product values('headphones',1299 ,'speakers',103)
+insert into product values('Laptop',79000 ,'Laptop & Desktop',109)
+insert into product values('Mobiles',18000 ,'mobile',101)
+insert into product values('Desktop',69500 ,'Laptop & Desktop',109)
+insert into product values('Earbuds',1800 ,'speakers',103)
+insert into product values('T-Shirt',299 ,'clothing',105)
+insert into product values('Tv',25000 ,'Electronics',106)
+insert into product values('Bluetooth Speakers',899 ,'speakers',103)
+insert into product values('Sandals',2999 ,'Footwear',110)
+insert into product values('Gowns',8999 ,'clothing',105)
+
+select * from product
+
+
+--Orders Table
+create table orders(o_id int primary key identity(100,1),o_quantity int, o_total numeric(18,0), p_id int
+constraint fk_ord foreign key(p_id)
+references product(p_id))
+
+insert into orders values(3, 2897, 1001)
+insert into orders values(1, 18000, 1003)
+insert into orders values(4, 3596, 1008)
+insert into orders values(2, 50000, 1007)
+insert into orders values(1, 79000, 1002)
+insert into orders values(6, 7192, 1001)
+insert into orders values(3, 54000, 1003)
+insert into orders values(1, 8999, 1010)
+
+select * from orders
+
+--Customer Table
+create table customer(c_id int identity(10,1),c_name nvarchar(20),c_email nvarchar(30),o_id int,c_city nvarchar(20)
+constraint fk_cust foreign key(o_id) references orders(o_id))
+
+insert into customer values('Mohit','mohit@gmail.com',104,'kanpur')
+insert into customer values('Rohit','rohit@gmail.com',102,'jalandhar')
+insert into customer values('Ronny','ronny@gmail.com',105,'punjab')
+insert into customer values('Mohit','mohit@gmail.com',106,'kanpur')
+insert into customer values('Shivam','shivam@gmail.com',107,'patna')
+insert into customer values('shruti','shruti@gmail.com',107,'patna')
+insert into customer values('sam','sam@gmail.com',105,'patna')
+
+select * from customer
+
+--Distinct 
+select distinct(c_name) from customer
+select distinct o_id, p_id from orders
+
+--Group by
+select p_id,o_quantity from orders group by p_id,o_quantity
+select p_category_id,sum(p_price) as 'Total Price' from product group by p_category_id
+select p_category_id,count(p_price) as 'Total Count' from product group by p_category_id
+
+--Order by
+select c_id, c_name from customer order by c_name
+select c_id, c_name from customer order by c_name desc
+
+--Having
+select p_category_id,sum(p_price) as 'Total Price' from product group by p_category_id having sum(p_price) > 18000
+select p_category_id,count(p_price) as 'Total Count' from product group by p_category_id having sum(p_price) > 1800
+
+--MIN Function
+select min(p_price) as 'Minimum price for product' from product 
+
+--Max 
+select max(p_price) as 'Minimum price for product' from product 
+
+--AVG
+select avg(p_price) as 'Minimum price for product' from product 
+
+--Count
+select count(p_price) as 'Minimum price for product' from product 
