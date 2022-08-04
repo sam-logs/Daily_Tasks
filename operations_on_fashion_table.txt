@@ -1,0 +1,115 @@
+create database fashion
+use fashion
+
+--Fashion Table
+create table brand(brand_id int primary key identity(200,1), brand_name nvarchar(20), brand_category nvarchar(20),brand_value numeric(12,0),client_id numeric(12,0))
+
+insert into brand values('Nike','SportsWear',120000,18)
+insert into brand values('Adidas','SportsWear',110000,19)
+insert into brand values('Gucci','High-Fashion',9000000,3)
+insert into brand values('Prada','High-Fashion',190000,2)
+insert into brand values('Zara','Clothing',100000,6)
+insert into brand values('H&M','Clothing',180000,82)
+insert into brand values('Lakme','Cosmetics',200000,90)
+insert into brand values('Louis Vitton','Clothing',300000,5)
+insert into brand values('Maybelline','Csometics',20000,9)
+insert into brand values('Rupa','InnerWear',700000,7)
+insert into brand values('Dream11','Betting',200000,11)
+
+select * from brand
+
+--Celebrity Table
+
+create table celebrity(celebrity_id int primary key identity(100,1), celebrity_name nvarchar(20), celebrity_rating int, brand_id int
+constraint fk_brnd foreign key(brand_id)
+references brand(brand_id))
+
+insert into celebrity values('ShahRukh khan', 5, 205)
+insert into celebrity values('Ronaldo', 5, 200)
+insert into celebrity values('Messi', 4, 201)
+insert into celebrity values('Ronaldo', 5, 203)
+insert into celebrity values('ShahRukh khan', 5, 202)
+insert into celebrity values('Salman Khan', 4, 209)
+insert into celebrity values('Kiara Advani', 4, 208)
+insert into celebrity values('Alia', 3, 206)
+insert into celebrity values('Katrnia', 5, 207)
+insert into celebrity values('Varun', 4, 204)
+insert into celebrity values('Salman Khan', 5, 203)
+
+
+select * from celebrity
+
+
+--Endorsement Table
+
+create table endorsement(end_id int primary key identity(1001,1), brand_id int, celebrity_id int)
+
+insert into endorsement values(200,101)
+insert into endorsement values(201,102)
+insert into endorsement values(202,104)
+insert into endorsement values(203,103)
+insert into endorsement values(203,110)
+insert into endorsement values(204,109)
+insert into endorsement values(205,100)
+insert into endorsement values(206,107)
+insert into endorsement values(207,108)
+insert into endorsement values(208,106)
+insert into endorsement values(209,105)
+
+select * from endorsement
+
+
+--Creating Stored Procedure(for brand which doesn't endorsed celeb)
+create procedure sp_endorse
+as
+begin
+select brand_name, celebrity_name from brand as b
+left join celebrity c 
+on b.brand_id=c.brand_id where celebrity_name=Null
+end
+
+exec sp_endorse
+
+
+--Stored Procedure for common brand endorsed for celeb
+create procedure sp_cmn_brand
+as
+begin
+select b.brand_id,brand_name,celebrity_name,celebrity_id from brand b
+inner join celebrity c
+on b.brand_id=c.brand_id
+end
+
+exec sp_cmn_brand
+
+drop procedure sp_cmn_brand
+
+
+
+--stored procedure to check no of times celebrity endorsed
+create procedure sp_end_celeb
+as
+begin
+select count(celebrity_name) as 'No of times endorsed', celebrity_name from celebrity c
+inner join endorsement e
+on e.brand_id=c.brand_id
+group by celebrity_name
+end
+
+exec sp_end_celeb
+
+--union of brand and celebrity table
+select brand_id,brand_name from brand
+union all
+select celebrity_id,celebrity_name from celebrity
+
+--intersection of brand and celebrity table under sp
+create procedure sp_int_celeb
+as
+begin
+select brand_id,brand_name from brand
+intersect
+select celebrity_id,celebrity_name from celebrity
+end
+
+exec sp_int_celeb
