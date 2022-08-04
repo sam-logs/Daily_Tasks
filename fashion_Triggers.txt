@@ -1,0 +1,177 @@
+create database fashion
+use fashion
+
+--Fashion Table
+create table brand(brand_id int primary key identity(200,1), brand_name nvarchar(20), brand_category nvarchar(20),brand_value numeric(12,0),client_id numeric(12,0))
+
+insert into brand values('Nike','SportsWear',120000,18)
+insert into brand values('Adidas','SportsWear',110000,19)
+insert into brand values('Gucci','High-Fashion',9000000,3)
+insert into brand values('Prada','High-Fashion',190000,2)
+insert into brand values('Zara','Clothing',100000,6)
+insert into brand values('H&M','Clothing',180000,82)
+insert into brand values('Lakme','Cosmetics',200000,90)
+insert into brand values('Louis Vitton','Clothing',300000,5)
+insert into brand values('Maybelline','Csometics',20000,9)
+insert into brand values('Rupa','InnerWear',700000,7)
+insert into brand values('Dream11','Betting',200000,11)
+
+select * from brand
+
+--crating log table
+create table brandLog(id int primary key identity(1,1),brand_id int,operations nvarchar(20),insertdate datetime)
+select * from brandLog
+
+
+--creating insert trigger for brand
+create trigger trbrand
+on 
+brand 
+after insert 
+as
+insert into brandLog(brand_id,operations,insertdate)
+select brand_id,'Data-Inserted',GETDATE() from inserted
+
+
+--creating update trigger for brand
+create trigger trbrand_upd
+on 
+brand 
+after update 
+as
+insert into brandLog(brand_id,operations,insertdate)
+select brand_id,'Data-Updated',GETDATE() from deleted
+
+
+--creating delete trigger for brand
+create trigger trbrand_del
+on 
+brand 
+after delete
+as
+insert into brandLog(brand_id,operations,insertdate)
+select brand_id,'Data-deleted',GETDATE() from deleted
+
+delete from brand where brand_id=210
+
+
+
+--Celebrity Table
+
+create table celebrity(celebrity_id int primary key identity(100,1), celebrity_name nvarchar(20), celebrity_rating int, brand_id int
+constraint fk_brnd foreign key(brand_id)
+references brand(brand_id))
+
+insert into celebrity values('ShahRukh khan', 5, 205)
+insert into celebrity values('Ronaldo', 5, 200)
+insert into celebrity values('Messi', 4, 201)
+insert into celebrity values('Ronaldo', 5, 203)
+insert into celebrity values('ShahRukh khan', 5, 202)
+insert into celebrity values('Salman Khan', 4, 209)
+insert into celebrity values('Kiara Advani', 4, 208)
+insert into celebrity values('Alia', 3, 206)
+insert into celebrity values('Katrnia', 5, 207)
+insert into celebrity values('Varun', 4, 204)
+insert into celebrity values('Salman Khan', 5, 203)
+
+update celebrity set celebrity_rating=4 where celebrity_id=114
+
+delete from celebrity where celebrity_id=118
+
+select * from celebrity
+
+
+--crating log table
+create table celebrityLog(id int primary key identity(1,1),celebrity_id int,operations nvarchar(20),insertdate datetime)
+select * from celebrityLog
+
+
+--creating insert trigger for celebrity
+create trigger trcelebrity
+on 
+celebrity 
+after insert 
+as
+insert into celebrityLog(celebrity_id,operations,insertdate)
+select celebrity_id,'Data-Inserted',GETDATE() from inserted
+
+
+--creating update trigger for celebrity
+create trigger trcelebrity_upd
+on 
+celebrity 
+after update 
+as
+insert into celebrityLog(celebrity_id,operations,insertdate)
+select celebrity_id,'Data-Updated',GETDATE() from deleted
+
+--creating delete trigger for celebrity
+create trigger trcelebrity_del
+on 
+celebrity 
+after delete
+as
+insert into celebrityLog(celebrity_id,operations,insertdate)
+select celebrity_id,'Data-Deleted',GETDATE() from deleted
+
+
+
+
+--Endorsement Table
+
+create table endorsement(end_id int primary key identity(1001,1), brand_id int, celebrity_id int)
+
+insert into endorsement values(200,101)
+insert into endorsement values(201,102)
+insert into endorsement values(202,104)
+insert into endorsement values(203,103)
+insert into endorsement values(203,110)
+insert into endorsement values(204,109)
+insert into endorsement values(205,100)
+insert into endorsement values(206,107)
+insert into endorsement values(207,108)
+insert into endorsement values(208,106)
+insert into endorsement values(209,105)
+
+update endorsement set celebrity_id=104 where end_id=1004
+
+delete from endorsement where end_id=1015
+
+
+select * from endorsement
+
+
+--crating log table
+create table endorsementLog(id int primary key identity(1,1),end_id int,operations nvarchar(20),insertdate datetime)
+select * from endorsementLog
+
+
+--creating insert trigger for endorsement
+create trigger trend
+on 
+endorsement
+after insert 
+as
+insert into endorsementLog(end_id,operations,insertdate)
+select end_id,'Data-Inserted',GETDATE() from inserted
+
+
+--creating update trigger for endorsement
+create trigger trend_upd
+on 
+endorsement
+after update 
+as
+insert into endorsementLog(end_id,operations,insertdate)
+select end_id,'Data-Updated',GETDATE() from deleted
+
+--creating delete trigger for celebrity
+create trigger trend_del
+on 
+endorsement
+after delete
+as
+insert into endorsementLog(end_id,operations,insertdate)
+select end_id,'Data-Deleted',GETDATE() from deleted
+
+drop trigger trend_del
